@@ -1,0 +1,1140 @@
+<!DOCTYPE HTML>
+<!--
+    ====================================================
+    Copyright © 2023 洋太
+    ====================================================
+    This source code or any portion thereof must not be  
+    reproduced or used in any manner whatsoever.
+    ====================================================
+-->
+<html>
+
+<head>
+    <title>APP　｜Cyber</title>
+    <meta http-equiv="content-type" charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CDN -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <!-- webfont -->
+    <link href="https://use.fontawesome.com/releases/v6.2.0/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
+    <!-- css -->
+    <style name="main-landscape">
+        body {
+            background: #555;
+            overflow-x: hidden;
+        }
+
+        /* 背景 */
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100%;
+            background-color: #fff;
+            background-size: cover;
+            z-index: 1;
+            filter: blur(5px);
+        }
+
+        /* チェットエリア */
+        #chat {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 35%;
+            background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+            z-index: 200;
+        }
+
+        #character {
+            position: absolute;
+            width: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 3%;
+        }
+
+        #character-name {
+            margin: 10px;
+            color: #fff;
+            font-size: 20px;
+            font-family: 'M PLUS 1p', sans-serif;
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        #character-name .name {
+            margin: 0;
+            padding: 10px;
+            width: 100%;
+            border-bottom: 1px solid #fff;
+        }
+
+        #character-text {
+            margin: 5px;
+            padding: 10px;
+            color: #fff;
+            font-size: 0.8rem;
+            font-family: 'M PLUS 1p', sans-serif;
+        }
+
+        #down {
+            position: fixed;
+            right: 10%;
+            bottom: 5%;
+            color: #fff;
+            animation: flash 1s infinite;
+        }
+
+        @keyframes flash {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* メニュー */
+        #menu-button {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100vw;
+            height: 18%;
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-around;
+            z-index: 700;
+        }
+
+        #menu-button .btn {
+            background-image: url(pict/menu.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top;
+            width: 20%;
+            margin: 0;
+            margin-left: 15px;
+            padding: 0;
+            opacity: 0.5;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #menu-button .btn[name="info"] {
+            background-image: url(pict/menu/information.png);
+        }
+
+        #menu-button .btn[name="chara"] {
+            background-image: url(pict/menu/character.png);
+        }
+
+        #menu-button .btn[name="gacha"] {
+            background-image: url(pict/menu/gacha.png);
+        }
+
+        #menu-button .btn[name="setting"] {
+            background-image: url(pict/menu/setting.png);
+        }
+
+        #menu-button .btn[name="credit"] {
+            background-image: url(pict/menu/credit.png);
+        }
+
+        #menu-button .btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        #menu-button .san {
+            background-image: url(pict/san/err.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top;
+            width: 45%;
+            margin: 0;
+            margin-right: 10px;
+            padding: 0;
+            opacity: 1;
+        }
+
+        #menu-content {
+            position: fixed;
+            background: #000;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            color: #fff;
+            padding: 20px;
+            z-index: 800;
+            overflow-x: hidden;
+        }
+
+        #menu-content .menu-item {
+            margin-top: 40px;
+            margin-bottom: 5em;
+            padding: 20px;
+            font-family: 'M PLUS 1p', sans-serif;
+        }
+
+        /* setting */
+        .on-off {
+            transition: 0.2s;
+            width: 150px;
+            height: 70px;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .on {
+            background-image: url(pict/on.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: left 20px top 0;
+        }
+
+        .off {
+            background-image: url(pict/off.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: left 20px top 0;
+        }
+
+        /* table */
+        table,
+        th,
+        tr,
+        td {
+            border: none;
+        }
+
+        td {
+            padding: 5px;
+            font-size: 18px;
+        }
+
+        /* select image */
+        .select-image {
+            display: flex;
+            flex-wrap: wrap;
+            width: 80%;
+            background-size: cover;
+        }
+
+        .back-image div,
+        .chara-image div {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: left 0 top 0;
+            margin-right: 30px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .back-image div {
+            width: 30%;
+            height: 200px;
+        }
+
+        .chara-image div {
+            width: 20%;
+            height: 350px;
+        }
+
+        .select-image div:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .select-image div.here {
+            border: 1px solid #fff;
+            box-shadow: cyan 0 0 10px;
+            opacity: 1;
+            cursor: auto;
+        }
+
+        .select-image div.here:hover {
+            transform: scale(1);
+        }
+
+        .select-image .here:hover {
+            opacity: 1;
+        }
+
+        p.pcname {
+            position: relative;
+            font-family: 'M PLUS 1p', sans-serif;
+            font-size: 20px;
+            top: 70%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px;
+        }
+
+        .here p.pcname {
+            opacity: 0;
+        }
+
+        /* キャラクター */
+        #character-position {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            height: 85%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        /* 見出し */
+        h1 {
+            font-family: 'Audiowide', sans-serif;
+            font-size: 48px;
+            text-shadow: cyan 1px 0 10px;
+        }
+
+        /* 画像ロード用 */
+        #pre-load {
+            display: none !important;
+        }
+
+        /* 閉じるボタン */
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            z-index: 900;
+            cursor: pointer;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        /* portrait-only */
+        .landscape-none {
+            display: none;
+        }
+
+        .portrait-none {
+            display: block;
+        }
+    </style>
+    <style name="portrait">
+        @media (orientation: portrait) {
+
+            /* chat */
+            #character {
+                width: 90%;
+                height: 45%;
+            }
+
+            /* chara */
+            #character-position {
+                width: 130%;
+                height: 90%;
+                overflow: hidden;
+            }
+
+            #down {
+                bottom: 3%;
+            }
+
+            /* menu */
+            #menu-button {
+                flex-wrap: nowrap;
+                margin: 0;
+            }
+
+            #menu-button .btn {
+                width: 30%;
+                margin: 0;
+                opacity: 1;
+            }
+
+            #menu-button .btn[name="setting"] {
+                background-image: url(pict/menu/setting-credit.png);
+            }
+
+            #menu-button .btn:hover {
+                transform: scale(1);
+            }
+
+            .close-btn {
+                position: fixed;
+                top: 20px;
+                right: 30px;
+                z-index: 900;
+                cursor: pointer;
+                color: #fff;
+                font-size: 24px;
+            }
+
+            #mobile-san {
+                position: fixed;
+                top: 14%;
+                right: 0;
+                background-image: url(pict/san/err.png);
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: top;
+                width: 65%;
+                height: 100px;
+                margin: 0;
+                z-index: 800;
+            }
+
+            #menu-content {
+                position: fixed;
+                height: 100%;
+                width: 100%;
+                overflow-x: hidden;
+            }
+
+            .menu-item {
+                margin-bottom: 0;
+            }
+
+            /* 画像セレクト */
+            .select-image {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+                width: 80%;
+            }
+
+            .select-image div {
+                background-size: cover;
+                background-repeat: no-repeat;
+                /* background-position: left 0 top 0; */
+                background-position: center;
+                margin-right: 30px;
+                margin-bottom: 20px;
+                opacity: 0.8;
+                cursor: pointer;
+                transition: 0.2s;
+                width: 100%;
+                /* height: 120px; */
+            }
+
+            .select-image div:hover {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+
+            p.pcname {
+                opacity: 0;
+            }
+
+            /* 見出し */
+            h1 {
+                font-size: 36px;
+            }
+
+            /* portrait-only */
+            .portrait-none {
+                display: none;
+            }
+
+            .landscape-none {
+                display: block;
+            }
+        }
+    </style>
+    <style name="loading">
+        #loading-now {
+            position: fixed;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 1000;
+            background: #000;
+        }
+
+        .loadpointer {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .point1,
+        .point2,
+        .point3 {
+            display: inline-block;
+            margin: 10px;
+            width: 10px;
+            height: 10px;
+            background: #ccc;
+            border-radius: 50%;
+        }
+
+        .point1 {
+            animation: loaded 3s infinite;
+            animation-delay: 0s;
+            background: linear-gradient(45deg, #adff2f 0%, #00ffff 100%)
+        }
+
+        .point2 {
+            animation: loaded 3s infinite;
+            animation-delay: 0.5s;
+            background: linear-gradient(45deg, #00ffff 0%, #00eeff 100%)
+        }
+
+        .point3 {
+            animation: loaded 3s infinite;
+            animation-delay: 1s;
+            background: linear-gradient(45deg, #00eeff 0%, #00ccff 100%)
+        }
+
+        @keyframes loaded {
+            0% {
+                transform: scale(1.0);
+            }
+
+            50% {
+                transform: scale(2.0);
+            }
+
+            100% {
+                transform: scale(1.0);
+            }
+        }
+
+        .load-comment {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            display: block;
+            font-size: 12px;
+            letter-spacing: 1.1em;
+            color: #fff;
+            font-family: 'Audiowide', sans-serif;
+            width: 100vw;
+            overflow: hidden;
+            text-align: center;
+            margin-left: 5px;
+        }
+
+        .text-anm {
+            animation: loadtext 2s infinite;
+        }
+
+        @keyframes loadtext {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+    <style name="insanity">
+        .san0 {
+            background-image: url(pict/san/0.png) !important;
+        }
+
+        .san5 {
+            background-image: url(pict/san/5.png) !important;
+        }
+
+        .san10 {
+            background-image: url(pict/san/10.png) !important;
+        }
+
+        .san15 {
+            background-image: url(pict/san/15.png) !important;
+        }
+
+        .san20 {
+            background-image: url(pict/san/20.png) !important;
+        }
+
+        .san25 {
+            background-image: url(pict/san/25.png) !important;
+        }
+
+        .san30 {
+            background-image: url(pict/san/30.png) !important;
+        }
+
+        .san35 {
+            background-image: url(pict/san/35.png) !important;
+        }
+
+        .san40 {
+            background-image: url(pict/san/40.png) !important;
+        }
+
+        .san45 {
+            background-image: url(pict/san/45.png) !important;
+        }
+
+        .san50 {
+            background-image: url(pict/san/50.png) !important;
+        }
+
+        .san55 {
+            background-image: url(pict/san/55.png) !important;
+        }
+
+        .san60 {
+            background-image: url(pict/san/60.png) !important;
+        }
+
+        .san65 {
+            background-image: url(pict/san/65.png) !important;
+        }
+
+        .san70 {
+            background-image: url(pict/san/70.png) !important;
+        }
+
+        .san75 {
+            background-image: url(pict/san/75.png) !important;
+        }
+
+        .san80 {
+            background-image: url(pict/san/80.png) !important;
+        }
+
+        .san85 {
+            background-image: url(pict/san/85.png) !important;
+        }
+
+        .san90 {
+            background-image: url(pict/san/90.png) !important;
+        }
+
+        .san95 {
+            background-image: url(pict/san/95.png) !important;
+        }
+    </style>
+    <style id="mobile-only-landscape">
+        @media (orientation: landscape) {
+            #chat {
+                height: 45%;
+            }
+
+            #character-name {
+                margin: 8px;
+                font-size: 16px;
+            }
+
+            #character-name .name {
+                margin: 0;
+                padding: 5px;
+                width: 100%;
+            }
+
+            #character-text {
+                margin: 10px;
+                padding: 5px;
+                font-size: 14px;
+            }
+
+            #menu-button .btn,
+            #menu-button .btn:hover {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .select-image div {
+                margin-right: 15px;
+            }
+
+            .select-image.back-image {
+                flex-direction: column;
+                flex-wrap: nowrap;
+            }
+
+            .select-image.back-image div {
+                width: 100%;
+                height: 100px;
+                opacity: 0.8;
+            }
+
+            .select-image.chara-image div {
+                width: 30%;
+                height: 200px;
+                opacity: 0.8;
+            }
+
+            .select-image.back-image div:hover {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            .select-image div.here,
+            .select-image div.here:hover {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+    <style name="priority">
+        * {
+            -ms-overflow-style: none !important;
+        }
+
+        *::-webkit-scrollbar {
+            display: none !important;
+        }
+
+        a:link,
+        a:visited,
+        a:hover {
+            color: #00bfff;
+            text-decoration: none;
+        }
+
+        a.blank:link,
+        a.blank:visited,
+        a.blank:hover {
+            color: #adff2f;
+        }
+
+        .none {
+            display: none !important;
+        }
+    </style>
+    <!-- character data -->
+    <script src="character-data.js"></script>
+    <!-- js -->
+    <script name="onload">
+        function loading() {
+            $('.select-image div').addClass('changeSe');
+            if (!navigator.userAgent.match(/( iPhone | iPad | iPod | Android )/)) {
+                $('#mobile-only-landscape').remove();
+            }
+            try {
+                $('#pre-load img').imagesLoaded(function () {
+                    console.log('Success imagesLoaded')
+                });
+            }
+            catch (e) {
+                console.log('Failed imagesLoaded')
+            }
+            finally {
+                changeCharacter(true, null);
+            }
+        }
+        function show(a) {
+            setTimeout(() => {
+                $('#loading-now').fadeOut(350);
+                $('#view').fadeIn(300);
+            }, 1000);
+        }
+    </script>
+    <script name="change-character">
+        function changeCharacter(a, val) {
+            $('#character-text').hide();
+            if (a) {//初回
+                var rnd = Math.floor(Math.random() * (characterSet.length + 0) + 0);
+                $('#index' + rnd).addClass('here');
+            }
+            else if (val == null) {//クリック
+                var rnd = Number($('#index').val());
+            }
+            else {//キャラクターセレクト
+                var rnd = val;
+            }
+            var target = characterSet[rnd];
+            $('#index').val(target.index);
+            $('#character-name .name').text(target.name);
+            $('#mobile-san,#menu-button .san').css('background-image', 'url(pict/san/' + target.san + '.png)');
+            if (a || val !== null) {
+                var rnd2 = Math.floor(Math.random() * (target.serifList.length + 0) + 0);
+                $('#character-text').html(target.serifList[rnd2].serif);
+                $('#character-position').css('background-image', 'url(pict/chara/' + target.serifList[rnd2].image);
+                // $('#character-position').css('background-image', 'url(pict/chara/' + target.serifList[rnd2].image + '.png)');
+                if (a) {
+                    var result = changeBackground(null).result;
+                    console.log('change background-image', result);
+                }
+            }
+            else {
+                var rnd2 = Math.floor(Math.random() * (target.tunList.length + 0) + 0);
+                $('#character-text').html(target.tunList[rnd2].serif);
+                $('#character-position').css('background-image', 'url(pict/chara/' + target.tunList[rnd2].image);
+                // $('#character-position').css('background-image', 'url(pict/chara/' + target.tunList[rnd2].image + '.png)');
+            }
+            $('#character-text').show('slide', { direction: 'left' }, 500);
+            if (a) { show(true); }
+            else if (val == null) { return; }
+            else {
+                setTimeout(() => {
+                    $('#menu-content,#menu-content div.menu-item').slideUp(200);
+                }, 200);
+            }
+        }
+        $(function () {
+            $('#character-position').click(function () {
+                changeCharacter(false, null);
+            });
+        });
+        $(function () {
+            $('.chara-image div').click(function () {
+                if ($(this).hasClass('here')) { return; }
+                $('.chara-image div').removeClass('here');
+                $(this).addClass('here');
+                var val = Number($(this).attr('id').replace('index', ''));
+                changeCharacter(false, val);
+            });
+        });
+    </script>
+    <script name="change-background">
+        function changeBackground(index) {
+            if (index == null) {
+                var max = ($('[name="background-image-target"]').length);
+                var index = Math.floor(Math.random() * max);
+            }
+            $('#bg' + index).addClass('here');
+            var backgroundImage = 'url(pict/back/' + index + '.jpg)';
+            $('#background').css('background-image', backgroundImage);
+            var result = true;
+            return { result: result };
+        }
+        $(function () {
+            $('.back-image div').click(function () {
+                if ($(this).hasClass('here')) { return; }
+                $('.back-image div').removeClass('here');
+                var index = Number($(this).attr('id').replace('bg', ''));
+                var result = changeBackground(index).result;
+                console.log('change background-image', result);
+                setTimeout(() => {
+                    $('#menu-content,#menu-content div.menu-item').slideUp(200);
+                }, 200);
+                $('[name="bgm-sound"]').prop('muted', true);
+                $('[name="bgm-sound"]').get(0).pause();
+                playAudio('bgm');
+            });
+        });
+    </script>
+    <script name="menu-action">
+        $(function () {
+            $('#menu-button .btn').click(function () {
+                var thisname = $(this).attr('name');
+                if ($(window).height() < $(window).width()) {//横画面
+                    if ($(this).hasClass('noitem')) {
+                        alert('ガチャ未実装！')
+                    }
+                    else {
+                        $('#menu-content,#menu-content div.menu-item[name="' + thisname + '"]').slideDown(300);
+                    }
+                }
+                else {
+                    if (thisname == 'setting') {
+                        $('#menu-content,#menu-content div.menu-item[name="setting"],#menu-content div.menu-item[name="credit"]').slideDown(300);
+                    }
+                    else {
+                        $('#menu-content,#menu-content div.menu-item[name="' + thisname + '"]').slideDown(300);
+                    }
+                }
+            });
+        });
+        $(function () {
+            $('.close-btn').click(function () {
+                var parent = $(this).parent().attr('id');
+                if (parent == 'menu-content') {
+                    $('#menu-content,#menu-content div.menu-item').slideUp(200);
+                }
+            });
+        });
+        $(function () {
+            $('.on-off').click(function () {
+                $(this).toggleClass('on').toggleClass('off');
+            });
+        });
+    </script>
+    <script name="audio-action">
+        $(function () {
+            $('#bgm-switch,#se-switch').click(function () {
+                var src = $(this).attr('id').replace('-switch', '');
+                if ($(this).hasClass('off')) {//止めるよ
+                    console.log(src, 'switch off')
+                    if (src == 'bgm') {
+                        var num = $('#background').css('background-image').split('/back/')[1].split('.')[0];
+                        src += num;
+                        $('[name="bgm-sound"]').prop('muted', true);
+                        $('#' + src).get(0).pause();
+                    }
+                    else {
+                        $('.openSe,.closeSe,.touchSe,.changeSe').removeClass('soundEffectOn');
+                        console.log('soundEffectOn count', $('.soundEffectOn').length)
+                    }
+                }
+                else {//鳴らすよ
+                    console.log(src, 'switch on')//debug
+                    if (src == 'bgm') {
+                        playAudio(src);
+                    }
+                    else {
+                        $('.openSe,.closeSe,.touchSe,.changeSe').addClass('soundEffectOn');
+                        /* touchSeを鳴らす */
+                        var soundSE = document.getElementById('touchSe');
+                        soundSE.currentTime = 0;
+                        soundSE.volume = 1;
+                        soundSE.play();
+                    }
+                }
+            });
+        });
+        function playAudio(src) {
+            if ($('#bgm-switch').hasClass('on')) {
+                var num = $('#background').css('background-image').split('/back/')[1].split('.')[0];
+                src += num;
+                $('#' + src).prop('muted', false);
+                $('#' + src).get(0).currentTime = 0;
+                $('#' + src).get(0).play();
+                console.log(src, 'play start')
+            }
+        }
+        $(function () {//SE:.soundEffectOnのクリック発火
+            $(document).on('click', '.soundEffectOn', function () {
+                var classAry = $(this).attr('class').split(' ');
+                if (classAry.indexOf('openSe') !== -1) {
+                    console.log('openSe')
+                    var soundSE = document.getElementById('openSe');
+                    soundSE.currentTime = 0;
+                    soundSE.volume = 1;
+                    soundSE.play();
+                }
+                else if (classAry.indexOf('closeSe') !== -1) {
+                    console.log('closeSe');
+                    var soundSE = document.getElementById('closeSe');
+                    soundSE.currentTime = 0;
+                    soundSE.volume = 1;
+                    soundSE.play();
+                }
+                else if (classAry.indexOf('touchSe') !== -1) {
+                    console.log('touchSe');
+                    var soundSE = document.getElementById('touchSe');
+                    soundSE.currentTime = 0;
+                    soundSE.volume = 1;
+                    soundSE.play();
+                }
+                else if (classAry.indexOf('changeSe') !== -1) {
+                    console.log('changeSe');
+                    var soundSE = document.getElementById('changeSe');
+                    soundSE.currentTime = 0;
+                    soundSE.volume = 1;
+                    soundSE.play();
+                }
+                else {
+                    console.log('se err')
+                }
+            });
+        });
+    </script>
+</head>
+
+<body onload="loading();">
+    <div id="loading-now">
+        <div class="loadpointer">
+            <div class="point1"></div>
+            <div class="point2"></div>
+            <div class="point3"></div>
+        </div>
+        <div class="load-comment">
+            <span class="text-anm">Loading</span>
+        </div>
+    </div>
+    <div id="view" style="display:none;">
+        <div id="pre-load"><!-- 読込箇所 -->
+            <input type="hidden" id="index" value="null">
+            <!-- メニュー画像 -->
+            <img src="pict/on.png">
+            <img src="pict/off.png">
+            <img src="pict/menu/information.png">
+            <img src="pict/menu/character.png">
+            <img src="pict/menu/gacha.png">
+            <img src="pict/menu/setting.png">
+            <img src="pict/menu/credit.png">
+            <img src="pict/menu/setting-credit.png">
+            <!-- SAN画像 -->
+            <img src="pict/san/0.png">
+            <img src="pict/san/5.png">
+            <img src="pict/san/10.png">
+            <img src="pict/san/15.png">
+            <img src="pict/san/20.png">
+            <img src="pict/san/25.png">
+            <img src="pict/san/30.png">
+            <img src="pict/san/35.png">
+            <img src="pict/san/40.png">
+            <img src="pict/san/45.png">
+            <img src="pict/san/50.png">
+            <img src="pict/san/55.png">
+            <img src="pict/san/60.png">
+            <img src="pict/san/65.png">
+            <img src="pict/san/70.png">
+            <img src="pict/san/75.png">
+            <img src="pict/san/80.png">
+            <img src="pict/san/85.png">
+            <img src="pict/san/90.png">
+            <img src="pict/san/95.png">
+            <!-- 背景画像 -->
+            <img src="pict/back/0.jpg">
+
+            <!-- キャラクター画像/差分込で読み込み -->
+            <img src="pict/index/SORAmain1.png">
+
+            <img src="pict/chara/SORAmain1.png">
+            <img src="pict/chara/SORAsub1.png">
+            <img src="pict/chara/SORAsub2.png">
+            <img src="pict/chara/SORAsub3.png">
+            <img src="pict/chara/SORAsub4.png">
+            <img src="pict/chara/SORAsub5.png">
+
+            <!-- 音源 -->
+            <audio loop preload muted id="bgm0" name="bgm-sound">
+                <source src="sound/0.mp3">
+            </audio>
+
+            <audio id="openSe" name="se-sound">
+                <source src="sound/open.mp3">
+            </audio>
+            <audio id="closeSe" name="se-sound">
+                <source src="sound/close.mp3">
+            </audio>
+            <audio id="touchSe" name="se-sound">
+                <source src="sound/touch.mp3">
+            </audio>
+            <audio id="changeSe" name="se-sound">
+                <source src="sound/change.mp3">
+            </audio>
+        </div>
+        <div id="background"></div>
+        <!-- メニューボタン -->
+        <div id="mobile-san" class="landscape-none"></div>
+        <div id="menu-button">
+            <div class="btn openSe" name="info"></div>
+            <div class="btn openSe" name="chara"></div>
+            <div class="btn openSe noitem portrait-none" name="gacha"></div>
+            <div class="btn openSe" name="setting"></div>
+            <div class="btn openSe portrait-none" name="credit"></div>
+            <div class="san portrait-none"></div>
+        </div>
+        <!-- メニューコンテンツ -->
+        <div id="menu-content" style="display:none;">
+            <i class="fa-solid fa-xmark close-btn closeSe"></i>
+            <div class="menu-item" name="info" style="display:none;">
+                <h1>Infomation</h1>
+                <ul>
+                    <li>PC版メニュー画面はスクロール時に若干カクつきます</li>
+                    <li>スマホ・タブレット版はSEが遅延・鳴らないことがあります</li>
+                    <li>その他不具合があっても素人コーディングの為致命的な不具合以外は改善しません</li>
+                </ul>
+                お遊びの範囲で楽しんでください！
+            </div>
+            <div class="menu-item" name="chara" style="display:none;">
+                <h1>Character</h1>
+                <div class="select-image chara-image">
+                    <!-- キャラクター差し替え箇所 -->
+                    <div id="index0" style="background-image:url(pict/index/SORAmain1.png);">
+                        <!-- <div id="index0"> -->
+                        <p class="pcname">櫻羽 空色</p>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item" name="setting" style="display:none;">
+                <h1>Sound</h1>
+                <table>
+                    <tr>
+                        <td>BGM</td>
+                        <td>
+                            <div class="on-off off touchSe" id="bgm-switch"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>SE</td>
+                        <td>
+                            <div class="on-off off touchSe" id="se-switch"></div>
+                        </td>
+                    </tr>
+                </table>
+                <br><br>
+                <h1>Background</h1>
+                <div class="select-image back-image">
+                    <!-- 背景差し替え箇所 -->
+                    <div id="bg0" style="background-image: url(pict/back/0.jpg);" name="background-image-target"></div>
+
+                </div>
+            </div>
+            <div class="menu-item" name="credit" style="display:none;">
+                <h1>Credit</h1>
+                BGM『Dear myself!』-茶葉のぎか<br>
+                <a href="https://nogikashop.booth.pm/items/5495038" target="_blank"
+                    class="blank">https://nogikashop.booth.pm/items/5495038 <i
+                        class="fa-solid fa-up-right-from-square"></i></a><br>
+                <br>
+
+                背景『木漏れ日と天使の梯子の魔法の無料のAI画像素材』-ぱくたそ<br>
+                <a href="https://www.pakutaso.com/20231051284post-48866.html" target="_blank"
+                    class="blank">https://www.pakutaso.com/20231051284post-48866.html <i
+                        class="fa-solid fa-up-right-from-square"></i></a><br>
+                <br>
+
+
+                <br>
+                <h1>Developer</h1>
+                Copyright©2023 洋太 / 放牧場<br>
+                <a href="https://twitter.com/FutonCoC" target="_blank"><i class="fa-brands fa-square-twitter"></i>
+                    @FutonCoC</a><br>
+            </div>
+        </div>
+        <!-- 立ち絵 -->
+        <div id="character-position" class="touchSe"></div>
+        <!-- チャット -->
+        <div id="chat">
+            <div id="character">
+                <div id="character-name">
+                    <div class="name"></div>
+                </div>
+                <div id="character-text"></div>
+            </div>
+            <i class="fa-solid fa-chevron-down" id="down"></i>
+        </div>
+    </div>
+</body>
+
+</html>
