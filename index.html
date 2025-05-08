@@ -22,6 +22,7 @@
     <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
     <!-- css -->
+    <link rel="stylesheet" type="text/css" href="style.css">
     <style name="main-landscape">
         body {
             background: #555;
@@ -88,6 +89,7 @@
             font-family: 'M PLUS 1p', sans-serif;
         }
 
+        /* キャラクターテキストウィンドウ下の点滅してる三角 */
         #down {
             position: fixed;
             right: 10%;
@@ -243,7 +245,8 @@
         .chara-image div {
             background-size: cover;
             background-repeat: no-repeat;
-            background-position: left 0 top 0;
+            /* background-position: left 0 top 0; */
+            background-position: center center;
             margin-right: 30px;
             margin-bottom: 20px;
             opacity: 0.5;
@@ -378,6 +381,7 @@
                 opacity: 1;
             }
 
+
             #menu-button .btn[name="setting"] {
                 background-image: url(pict/menu/setting-credit.png);
             }
@@ -433,7 +437,7 @@
                 background-size: cover;
                 background-repeat: no-repeat;
                 /* background-position: left 0 top 0; */
-                background-position: center;
+                background-position: center center;
                 margin-right: 30px;
                 margin-bottom: 20px;
                 opacity: 0.8;
@@ -449,7 +453,9 @@
             }
 
             p.pcname {
-                opacity: 0;
+                top: 70%;
+                left: 50%;
+                /* opacity: 0; */
             }
 
             /* 見出し */
@@ -737,8 +743,14 @@
             display: none !important;
         }
     </style>
+
+
+
     <!-- character data -->
     <script src="character-data.js"></script>
+    <!-- gacha data -->
+    <script src="gacha-program.js"></script>
+    <script src="gacha-text.js"></script>
     <!-- js -->
     <script name="onload">
         function loading() {
@@ -855,12 +867,13 @@
             $('#menu-button .btn').click(function () {
                 var thisname = $(this).attr('name');
                 if ($(window).height() < $(window).width()) {//横画面
-                    if ($(this).hasClass('noitem')) {
-                        alert('ガチャ未実装！')
-                    }
-                    else {
-                        $('#menu-content,#menu-content div.menu-item[name="' + thisname + '"]').slideDown(300);
-                    }
+                    // if ($(this).hasClass('noitem')) {
+                    //     alert('ガチャ未実装！')
+                    // }
+                    // else {
+                    //     $('#menu-content,#menu-content div.menu-item[name="' + thisname + '"]').slideDown(300);
+                    // }
+                    $('#menu-content,#menu-content div.menu-item[name="' + thisname + '"]').slideDown(300);
                 }
                 else {
                     if (thisname == 'setting') {
@@ -1055,9 +1068,9 @@
         <!-- メニューボタン -->
         <div id="mobile-san" class="landscape-none"></div>
         <div id="menu-button">
-            <div class="btn openSe" name="info"></div>
+            <div class="btn openSe noitem portrait-none" name="info"></div>
             <div class="btn openSe" name="chara"></div>
-            <div class="btn openSe noitem portrait-none" name="gacha"></div>
+            <div class="btn openSe" name="gacha"></div>
             <div class="btn openSe" name="setting"></div>
             <div class="btn openSe portrait-none" name="credit"></div>
             <div class="san portrait-none"></div>
@@ -1133,6 +1146,21 @@
                 <a href="https://twitter.com/FutonCoC" target="_blank"><i class="fa-brands fa-square-twitter"></i>
                     @FutonCoC</a><br>
             </div>
+
+            <div class="menu-item" name="gacha" style="display:none;">
+                <div class="gacha-container">
+                    <h2>ガチャ</h2>
+                    <button onclick="drawGacha()" style="background: none; border: none; padding: 0; cursor: pointer;">
+                        <img src="pict/menu/gacha1.png" alt="1回ガチャ" style="width: 150px; height: auto;">
+                    </button>
+                    <button onclick="drawGachaTenTimes()"
+                        style="background: none; border: none; padding: 0; cursor: pointer;">
+                        <img src="pict/menu/gacha10.png" alt="10回ガチャ" style="width: 150px; height: auto;">
+                    </button>
+                    <div id="result"></div>
+                </div>
+            </div>
+
         </div>
         <!-- 立ち絵 -->
         <div id="character-position" class="touchSe"></div>

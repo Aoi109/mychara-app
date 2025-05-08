@@ -1,0 +1,31 @@
+.gacha-container {
+    max-width: 400px;
+    /* margin: 20px auto; */
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    text-align: center;
+
+}
+
+button {
+    margin-top: 10px;
+}
+
+@keyframes resultFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.result-animation {
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: resultFadeIn 0.3s ease-out forwards;
+}
