@@ -12,6 +12,13 @@ function drawGacha() {
     result.classList.add('result-animation');
 }
 
+function clearGachaResults() {
+    var resultContainer = document.getElementById('result');
+    if (resultContainer) {
+        resultContainer.innerHTML = '';
+    }
+}
+
 function drawGachaTenTimes() {
     var results = [];
 

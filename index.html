@@ -886,10 +886,26 @@
             });
         });
         $(function () {
+            // $('.close-btn').click(function () {
+            //     var parent = $(this).parent().attr('id');
+            //     if (parent == 'menu-content') {
+            //         $('#menu-content,#menu-content div.menu-item').slideUp(200);
+            //     }
+            // });
             $('.close-btn').click(function () {
                 var parent = $(this).parent().attr('id');
                 if (parent == 'menu-content') {
                     $('#menu-content,#menu-content div.menu-item').slideUp(200);
+
+                    // 閉じようとしているメニューがガチャかどうか確認
+                    var targetMenu = $(this).closest('#menu-content').find('.menu-item:visible');
+                    if (targetMenu.attr('name') === 'gacha') {
+                        clearGachaResults();  // ← ★ここでガチャ結果をクリア
+                    }
+
+                    if ($(this).hasClass('noitem')) {
+                        alert('ガチャ未実装！');
+                    }
                 }
             });
         });
