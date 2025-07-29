@@ -29,3 +29,33 @@ button {
     transform: translateX(-100%);
     animation: resultFadeIn 0.3s ease-out forwards;
 }
+
+.rarity-N {
+    color: gray;
+    font-weight: normal;
+    text-shadow: none;
+}
+
+.rarity-R {
+    color: green;
+    font-weight: normal;
+    text-shadow: none;
+}
+
+.rarity-SR {
+    color: blue;
+    font-weight: normal;
+    text-shadow: none;
+}
+
+.rarity-SSR {
+    color: orange;
+    font-weight: normal;
+    text-shadow: none;
+}
+
+.rarity-SUR {
+    color: red;
+    font-weight: bold;
+    text-shadow: 0 0 5px gold;
+}

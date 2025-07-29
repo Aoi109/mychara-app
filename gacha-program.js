@@ -6,9 +6,12 @@ function drawGacha() {
     var result = document.getElementById('result');
     result.textContent = rarity + word + name;
 
-    // アニメーションをリセットするため、一度クラスを削除してから追加する
-    result.classList.remove('result-animation');
-    void result.offsetWidth; // リフローを発生させることで、クラスが削除されたことをブラウザに認識させる
+    // レアリティに応じたクラスを付け替える
+    result.className = ''; // 一度クリア
+    result.classList.add('result-animation', 'rarity-' + rarity);
+
+    // アニメーションリセット（そのまま）
+    void result.offsetWidth;
     result.classList.add('result-animation');
 }
 
@@ -42,8 +45,12 @@ function showNextResult(results, container, index) {
     }
 
     var resultElement = document.createElement('div');
+
+    // レアリティだけ抽出する
+    var rarity = results[index].match(/^(N|R|SR|SSR|SUR)/)[0];
+
     resultElement.textContent = results[index];
-    resultElement.className = 'result-animation';
+    resultElement.className = 'result-animation rarity-' + rarity;
 
     container.appendChild(resultElement);
 
@@ -51,6 +58,7 @@ function showNextResult(results, container, index) {
         showNextResult(results, container, index + 1);
     }, 100);
 }
+
 
 function generateRarity() {
     var random = Math.random() * 100;
