@@ -19,7 +19,19 @@ var characterSet = [
 				'image': 'SORAmain1.png'
 			},
 			{
+				'serif': '一人もい～けど、やっぱ誰かとやってた方がスケボーって楽しいって思うんだ',
+				'image': 'SORAmain1.png'
+			},
+			{
 				'serif': '好きな季節？そりゃ夏！！海に行くの好きなんだよね～！！そこまで泳げないんだけど！！！',
+				'image': 'SORAsub1.png'
+			},
+			{
+				'serif': '友達？結構いたよ～！！一期一会！どんな縁も大切にしたいじゃん？',
+				'image': 'SORAsub1.png'
+			},
+			{
+				'serif': 'お？？スケボーならちょっと負けらんないな？',
 				'image': 'SORAsub1.png'
 			},
 			{
@@ -36,6 +48,10 @@ var characterSet = [
 			},
 			{
 				'serif': '兄貴からの手紙、…死んでから大切なものが増えるとは思わなかったな。海理と仲良く、あたしの分まで長生きしてくれたらいいなぁ。',
+				'image': 'SORAsub5.png'
+			},
+			{
+				'serif': '兄貴と一緒に、スケボーやりたかったな……',
 				'image': 'SORAsub5.png'
 			}
 		]
